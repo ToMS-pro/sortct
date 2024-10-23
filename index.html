@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulasi Volume dan Biaya Berdasarkan Berat</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .form-container {
+            width: 45%; /* Mengatur lebar setiap form */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="number"], input[type="text"] {
+            width: calc(100% - 22px); /* Mengatur lebar input */
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        function calculateVolume() {
+            // Ambil nilai dari input
+            var panjang = parseFloat(document.getElementById('panjang').value);
+            var lebar = parseFloat(document.getElementById('lebar').value);
+            var tinggi = parseFloat(document.getElementById('tinggi').value);
+            var pembagi = parseFloat(document.getElementById('pembagi').value);
+            var tarif = parseFloat(document.getElementById('tarif').value);
+
+            // Hitung volume dan hasil akhir
+            var volume = panjang * lebar * tinggi;
+            var hasil = (volume / pembagi) * tarif;
+
+            // Format hasil akhir sebagai uang
+            var hasilFormat = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(hasil);
+
+            // Tampilkan hasil akhir yang diformat
+            document.getElementById('hasilVolume').value = hasilFormat;
+        }
+
+        function calculateBerat() {
+            // Ambil nilai dari input
+            var beratBarang = parseFloat(document.getElementById('berat').value);
+            var tarif10kgPertama = parseFloat(document.getElementById('tarif10kg').value);
+            var tarifPerKilo = parseFloat(document.getElementById('tarifPerKilo').value);
+
+            // Hitung total biaya
+            var totalBiaya = 0;
+            if (beratBarang <= 10) {
+                totalBiaya = tarif10kgPertama;  // Jika berat <= 10 kg, pakai tarif 10 kg pertama
+            } else {
+                totalBiaya = tarif10kgPertama + ((beratBarang - 10) * tarifPerKilo);  // Lebih dari 10 kg, tambahkan tarif per kilo selanjutnya
+            }
+
+            // Format hasil akhir sebagai uang
+            var totalBiayaFormat = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalBiaya);
+
+            // Tampilkan hasil akhir yang diformat
+            document.getElementById('hasilBerat').value = totalBiayaFormat;
+        }
+    </script>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Kalkulasi Volume</h1>
+        <form>
+            <label for="panjang">Panjang (cm):</label>
+            <input type="number" id="panjang" name="panjang" required><br>
+            
+            <label for="lebar">Lebar (cm):</label>
+            <input type="number" id="lebar" name="lebar" required><br>
+            
+            <label for="tinggi">Tinggi (cm):</label>
+            <input type="number" id="tinggi" name="tinggi" required><br>
+            
+            <label for="pembagi">Pembagi (4000 atau 6000):</label>
+            <input type="number" id="pembagi" name="pembagi" required><br>
+            
+            <label for="tarif">Tarif (Rp):</label>
+            <input type="number" id="tarif" name="tarif" required><br>
+            
+            <label for="hasilVolume">Hasil Akhir Volume (Rp):</label>
+            <input type="text" id="hasilVolume" name="hasilVolume" readonly><br>
+
+            <button type="button" onclick="calculateVolume()">Hitung Volume</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h1>Kalkulasi Biaya Berdasarkan Berat Barang</h1>
+        <form>
+            <label for="berat">Berat Barang (kg):</label>
+            <input type="number" id="berat" name="berat" required><br>
+            
+            <label for="tarif10kg">Tarif 10 kg Pertama (Rp):</label>
+            <input type="number" id="tarif10kg" name="tarif10kg" required><br>
+            
+            <label for="tarifPerKilo">Tarif Per Kilogram Selanjutnya (Rp):</label>
+            <input type="number" id="tarifPerKilo" name="tarifPerKilo" required><br>
+            
+            <label for="hasilBerat">Total Biaya Berat Barang (Rp):</label>
+            <input type="text" id="hasilBerat" name="hasilBerat" readonly><br>
+
+            <button type="button" onclick="calculateBerat()">Hitung Biaya Berat</button>
+        </form>
+    </div>
+
+</body>
+</html>
