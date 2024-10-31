@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,30 +73,37 @@
         }
 
         function calculateTotal() {
-            let biayaPokok = calculatePokok();
-            let biayaPenerus = parseFloat(document.getElementById('biayaPenerus').value) || 0;
-            let biayaAsuransi = 0;
-            if (document.getElementById('cekAsuransi').checked) {
-                let hargaBarang = parseFloat(document.getElementById('hargaBarang').value) || 0;
-                biayaAsuransi = (hargaBarang * 0.1) / 100;
-                document.getElementById('hasilAsuransi').value = formatCurrency(biayaAsuransi);
-            }
-            let DPP = biayaPokok + biayaPenerus + biayaAsuransi;
-            document.getElementById('hasilDPP').value = formatCurrency(DPP);
-            let PPN = DPP * 0.011;
-            document.getElementById('hasilPPN').value = formatCurrency(PPN);
-            let PPh23 = 0;
-            if (document.getElementById('cekPPh23').checked) {
-                PPh23 = DPP * 0.02;
-                document.getElementById('hasilPPh23').value = formatCurrency(PPh23);
-            } else {
-                document.getElementById('hasilPPh23').value = formatCurrency(0);
-            }
-            let biayaAmbil = parseFloat(document.getElementById('biayaAmbil').value) || 0;
-            let biayaPaking = parseFloat(document.getElementById('biayaPaking').value) || 0;
-            let totalTagihan = biayaAmbil + biayaPaking + DPP + PPN - PPh23;
-            document.getElementById('hasilTotal').value = formatCurrency(totalTagihan);
-        }
+    let biayaPokok = calculatePokok();
+    let biayaPenerus = parseFloat(document.getElementById('biayaPenerus').value) || 0;
+    let biayaAsuransi = 0;
+
+    if (document.getElementById('cekAsuransi').checked) {
+        let hargaBarang = parseFloat(document.getElementById('hargaBarang').value) || 0;
+        biayaAsuransi = Math.max((hargaBarang * 0.1) / 100, 1000); // Menetapkan minimum Rp1.000
+        document.getElementById('hasilAsuransi').value = formatCurrency(biayaAsuransi);
+    }
+
+    let DPP = biayaPokok + biayaPenerus + biayaAsuransi;
+    document.getElementById('hasilDPP').value = formatCurrency(DPP);
+
+    let PPN = DPP * 0.011;
+    document.getElementById('hasilPPN').value = formatCurrency(PPN);
+
+    let PPh23 = 0;
+    if (document.getElementById('cekPPh23').checked) {
+        PPh23 = DPP * 0.02;
+        document.getElementById('hasilPPh23').value = formatCurrency(PPh23);
+    } else {
+        document.getElementById('hasilPPh23').value = formatCurrency(0);
+    }
+
+    let biayaAmbil = parseFloat(document.getElementById('biayaAmbil').value) || 0;
+    let biayaPaking = parseFloat(document.getElementById('biayaPaking').value) || 0;
+    let totalTagihan = biayaAmbil + biayaPaking + DPP + PPN - PPh23;
+
+    document.getElementById('hasilTotal').value = formatCurrency(totalTagihan);
+}
+
 
         function toggleAsuransi() {
             document.getElementById('asuransiSection').style.display = document.getElementById('cekAsuransi').checked ? 'block' : 'none';
