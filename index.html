@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +87,7 @@
     let DPP = biayaPokok + biayaPenerus + biayaAsuransi;
     document.getElementById('hasilDPP').value = formatCurrency(DPP);
 
-    let PPN = DPP * 0.011;
+    let PPN = DPP * 0.012;
     document.getElementById('hasilPPN').value = formatCurrency(PPN);
 
     let PPh23 = 0;
@@ -202,7 +203,7 @@
         <label>DPP (Dari Biaya Pokok + Biaya Penerus + Biaya Asuransi) (Rp):</label>
         <input type="text" id="hasilDPP" readonly>
 
-        <label>PPN (1.1% dari DPP):</label>
+        <label>PPN (1.2% dari DPP):</label>
         <input type="text" id="hasilPPN" readonly>
 
         <label><input type="checkbox" id="cekPPh23" onclick="calculateTotal()"> PPh23 (2% dari DPP):</label>
